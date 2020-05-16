@@ -1,4 +1,4 @@
-# MyDPSwitch
+# dpswitch
 GUI application for fast switching between different multi-monitor configurations.
 
 # Motivation
@@ -37,7 +37,7 @@ The following table shows the power consumption of my systems with different dis
 
 # Usage
 
-Simply run the script `dpswitch.py` and the GUI will start. The default path of the config json is `/etc/MyDPSwitch/config.json`. If you want to use a custom path to the json file, run `./dpswitch.py </path/to/config.json`.
+Simply run the script `dpswitch.py` and the GUI will start. The default path of the config json is `/etc/dpswitch/config.json`. If you want to use a custom path to the json file, run `./dpswitch.py </path/to/config.json`.
 
 # Creating a config
 
@@ -45,17 +45,24 @@ With the command `xrandr` you get all the information you need for the config.js
 
 ```json
 {
-	<mode name> :
-	{
-		"display" : <display name>,
-		"resolution" : <widthxheight>,
-		"rate" : <refresh rate>
+	"displays" : {
+		<display name 1> : {
+			"port" : <DP-x|HDMI-x|VGA-x|DVI-x>
+		}
 	},
-	<mode 2 name> :
-	{
-		"display" : <display name>,
-		"resolution" : <widthxheight>,
-		"rate" : <refresh rate>
+	"configs" : {
+		<mode name> :
+		{
+			"display" : <display name 1>,
+			"resolution" : <widthxheight>,
+			"rate" : <refresh rate>
+		},
+		<mode 2 name> :
+		{
+			"display" : <display name 1>,
+			"resolution" : <widthxheight>,
+			"rate" : <refresh rate>
+		}
 	}
 }
 ```
@@ -64,13 +71,20 @@ Optional attributes are `primary` to set the primary monitor and `postion` to se
 
 ```json
 {
-	<mode name> :
-	{
-		"display" : <display name>,
-		"resolution" : <widthxheight>,
-		"rate" : <refresh rate>,
-		"primary" : true,
-		"position" : [<left|right|above|below>, <display name of the relative display>]
+	"displays" : {
+		<display name 1> : {
+			"port" : <DP-x|HDMI-x|VGA-x|DVI-x>
+		}
+	},
+	"configs" : {
+		<mode name> :
+		{
+			"display" : <display name 1>,
+			"resolution" : <widthxheight>,
+			"rate" : <refresh rate>,
+			"primary" : true,
+			"position" : [<left|right|above|below>, <display name of the relative display>]
+		}
 	}
 }
 ```
@@ -79,21 +93,31 @@ For multi-display setups it is necessary to define more than one display for a m
 
 ```json
 {
-	<mode name> :
-	[
-		{
-			"display" : <display name 1>,
-			"resolution" : <widthxheight>,
-			"rate" : <refresh rate>,
-			"primary" : true,
+	"displays" : {
+		<display name 1> : {
+			"port" : <DP-x|HDMI-x|VGA-x|DVI-x>
 		},
-		{
-			"display" : <display name 2>,
-			"resolution" : <widthxheight>,
-			"rate" : <refresh rate>,
-			"position" : [<left|right|above|below>, <display name of the relative display>]
+		<display name 2> : {
+			"port" : <DP-x|HDMI-x|VGA-x|DVI-x>
 		}
-	]
+	},
+	"configs" : {
+		<mode name> :
+		[
+			{
+				"display" : <display name 1>,
+				"resolution" : <widthxheight>,
+				"rate" : <refresh rate>,
+				"primary" : true,
+			},
+			{
+				"display" : <display name 2>,
+				"resolution" : <widthxheight>,
+				"rate" : <refresh rate>,
+				"position" : [<left|right|above|below>, <display name of the relative display>]
+			}
+		]
+	}
 }
 ```
 

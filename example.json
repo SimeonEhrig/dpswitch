@@ -1,31 +1,41 @@
 {
-    "Powersave" :
-    {
-	"display" : "DisplayPort-1",
-	"resolution" : "1920x1080",
-	"rate" : "60",
-	"primary" : true
+    "displays" : {
+	"MSI": {
+	    "port" : "DP-2"
+	},
+	"AOC" : {
+	    "port" : "DP-0"
+	}
     },
-    "Gaming" :
-    {
-	"display" : "DisplayPort-1",
-	"resolution" : "1920x1080",
-	"rate" : "144",
-	"primary" : true
-    },
-    "Multi-Monitor" :
-    [
+    "configs" : {
+	"Powersave" :
 	{
-	    "display" : "DisplayPort-1",
-	    "resolution" : "1920x1080",
-	    "rate" : "60",
+	    "display" : "MSI",
+	    "resolution" : "2560x1440",
+	    "rate" : "144",
 	    "primary" : true
 	},
+	"Gaming" :
 	{
-	    "display" : "DisplayPort-2",
-	    "resolution" : "1280x1024",
-	    "rate" : "60",
-	    "position" : ["left", "DisplayPort-1"]
-	}
-    ]
+	    "display" : "MSI",
+	    "resolution" : "2560x1440",
+	    "rate" : "164.80",
+	    "primary" : true
+	},
+	"Multi-Monitor" :
+	[
+	    {
+		"display" : "MSI",
+		"resolution" : "2560x1440",
+		"rate" : "60",
+		"primary" : true
+	    },
+	    {
+		"display" : "AOC",
+		"resolution" : "1920x1080",
+		"rate" : "60",
+		"position" : ["right", "MSI"]
+	    }
+	]
+    }
 }

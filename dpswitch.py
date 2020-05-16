@@ -209,7 +209,7 @@ def main(configPath : str):
     # create static GUI elements
     ############################################################################
     app = QApplication([])
-    app.setApplicationName('MyDPSwitch')
+    app.setApplicationName('dpswitch')
     window = QWidget()
     layout = QGridLayout()
     statusbar = QLabel()
@@ -231,13 +231,24 @@ def main(configPath : str):
         statusbar.setText('Error: Open JSON file\n' + str(e))
 
     ############################################################################
+    # replace display names with ports
+    ############################################################################
+    if configJson is not None:
+        for config_name in configJson["configs"]:
+            configs = configJson["configs"][config_name] if isinstance(configJson["configs"][config_name], list) else [configJson["configs"][config_name]]
+            for d in configs:
+                d['display'] = configJson["displays"][d["display"]]["port"]
+                if 'position' in d:
+                        d['position'][1] = configJson["displays"][d['position'][1]]["port"]
+
+    ############################################################################
     # create dynamic GUI elements for each mode
     ############################################################################
     if configJson is not None:
         buttonRow = 0
         buttons = []
-        for mode in configJson:
-            buttons.append(DisplayModeButton(mode, configJson[mode], statusbar))
+        for mode in configJson["configs"]:
+            buttons.append(DisplayModeButton(mode, configJson["configs"][mode], statusbar))
             layout.addWidget(buttons[-1] .button, 1, buttonRow)
             buttonRow += 1
 
@@ -251,5 +262,5 @@ def main(configPath : str):
     app.exec_()
 
 if __name__ == '__main__':
-    configPath = '/etc/MyDPSwitch/config.json' if len(sys.argv) < 2 else sys.argv[1]
+    configPath = '/etc/dpswitch/config.json' if len(sys.argv) < 2 else sys.argv[1]
     main(configPath)
