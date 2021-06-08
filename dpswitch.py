@@ -83,15 +83,21 @@ class DisplayModeButton:
 
         if "position" in json:
             pos = json["position"][0]
-            if pos == "left":
-                command.append("--left-of")
-            if pos == "right":
-                command.append("--right-of")
-            if pos == "above":
-                command.append("--above")
-            if pos == "below":
-                command.append("--below")
-            command.append(json["position"][1])
+            if pos == "pos":
+                command.append("--pos")
+                command.append(json["position"][1] + "x" + json["position"][2])
+            else:
+                if pos == "left":
+                    command.append("--left-of")
+                if pos == "right":
+                    command.append("--right-of")
+                if pos == "above":
+                    command.append("--above")
+                if pos == "below":
+                    command.append("--below")
+                if pos == "pos":
+                    command.append("--pos")
+                command.append(json["position"][1])
 
         self.logger_add(" ".join(command))
 
@@ -243,7 +249,8 @@ def main(configPath: str):
             for d in configs:
                 d["display"] = configJson["displays"][d["display"]]["port"]
                 if "position" in d:
-                    d["position"][1] = configJson["displays"][d["position"][1]]["port"]
+                    if d["position"][0] != "pos":
+                        d["position"][1] = configJson["displays"][d["position"][1]]["port"]
 
     ############################################################################
     # create dynamic GUI elements for each mode
